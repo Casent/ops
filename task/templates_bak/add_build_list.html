@@ -1,0 +1,55 @@
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+<title>jQuery UI 日期选择器（Datepicker） - 显示按钮栏</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker({
+      showButtonPanel: true
+    });
+  });
+  </script>
+<form role="form" method="post" action="/add_build_list/">
+
+     <table class="table table-striped">
+  <caption style="text-align:center">添加构建系统系统</caption>
+<thead>
+      <tr>
+         <th></th>
+         <th></th>
+         <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+      </tr>
+   </thead>
+    <tbody>
+        {% for job in job_name %}
+
+        <tr>
+            {% for j in job %}
+            <td><label><input type="checkbox" value="{{ j }}" name="build_group"  />{{ j }}</label></td>
+        {% endfor %}
+        </tr>
+
+    {% endfor %}
+    </tbody>
+    </table>
+    <br />
+
+     <select class="form-control" name="project_env">
+                        <option>pre</option>
+                        <option>prod</option>
+                    </select>
+    <br />
+
+    <p>日期：<input type="text" id="datepicker" name="date"></p> <input type="submit" value="提交">
+
+
+</form>

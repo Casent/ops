@@ -1,0 +1,59 @@
+
+<body>
+{%  include "base_templates.html" %}
+<form method="post" action="/issue_file/">
+
+<div class="col-xs-6">
+    <table class="table table-striped">
+  <caption style="text-align:center">下发脚本(/data/scripts/)</caption>
+
+<thead>
+      <tr>
+          <th>脚本名</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for file in file_list %}
+        <tr>
+            <td><input type="checkbox" value="{{ file }}" name="check_file_list"/>{{ file }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+        </table>
+</div>
+
+<div class="col-xs-6">
+    <table class="table table-striped">
+  <caption style="text-align:center">下发到服务器(/data/scripts/)</caption>
+<thead>
+      <tr>
+          <th>服务器名</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for server in server_l %}
+        <tr><td><input type="checkbox" value="{{ server.server_name }}" name="check_server_list"/>{{ server.server_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+ <div class="input-group">
+                    <span class="input-group-addon">脚本所属者</span>
+                    <select class="form-control"  onchange="selectgroup()" name="chown_user" >
+                         {% for user in user_list %}
+                        <option>{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+
+ </div>
+    <br/>
+<input type="submit" value="提交"/>
+</div>
+
+
+
+</form>
+
+
+</body>

@@ -1,0 +1,78 @@
+
+{%  include "base_templates.html" %}
+   {% csrf_token %}
+
+<div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <form role="form" method="post" action="/edit_plan/">
+                    <div class="input-group">
+                    <span class="input-group-addon">ID</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.id}}" name="plan_id"   readonly="true" data-original-title="" title="">
+                  </div>
+                  <br />
+                 <div class="input-group">
+                    <span class="input-group-addon">计划任务名称</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_name}}" name="plan_name"  data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">计划任务状态</span>
+                        <select class="form-control" onchange="choose_user()" name="plan_group" >
+                            <option >{{plan_l.plan_group}}</option>
+                            {% if  plan_l.plan_group == "up" %}
+                            <option  >down</option>
+                            {% else %}
+                            <option  >up</option>
+                            {% endif %}
+                        </select>
+                  </div>
+                    <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">执行时间分钟</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_time_minute}}" name="plan_time_minute" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">执行时间小时</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_time_hour}}" name="plan_time_hour" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">执行时间天</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_time_day}}" name="plan_time_day" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">执行时间月</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_time_month}}" name="plan_time_month" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">执行时间周</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_time_weekday}}" name="plan_time_weekday" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">计划任务命令</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_content}}" name="plan_content" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">计划任务备注</span>
+                    <input  placeholder="" class="form-control" value="{{plan_l.plan_note}}" name="plan_note" data-original-title="" title="">
+                  </div>
+                  <br />
+
+                    <br/><br/>
+    <input type="submit" value="提交">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+
+

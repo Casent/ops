@@ -1,0 +1,39 @@
+{%  include "base_templates.html" %}
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		<table class="table table-striped">
+  <caption style="text-align:center">任务列表</caption>
+
+<thead>
+      <tr>
+         <th>名称</th>
+         <th>组</th>
+         <th>内容</th>
+          <th>备注</th>
+          <th>操作</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for user in user_list %}
+        <tr>
+        <td>{{ user.user_department }}</td>
+        <td>{{ user.user_name }}</td>
+            <td>{{ user.user_master_group }}</td>
+        <td>{{ user.user_slave_group }}</td>
+        <td>{{ user.user_share }}</td>
+        <td><span class="label label-primary hover deleteidc"><a href="/user_editor/?user_editor={{user.user_name}}" style="color:white"  role="button">编辑</a></span>  <span class="label label-primary hover deleteidc"><a href="/delete_editor/?user_detel={{user.user_name}}" style="color:white"  role="button">删除</a></span></td>
+
+        </tr>
+{% endfor %}
+    </tbody>
+    </table>
+
+			 <form method="get" action="/add_user/">
+    <input type="submit" value="创建新任务">
+    </form>
+
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <h3 class="first-child">版本更新</h3>
+                <hr>
+                <form role="form" method="post" action="/issue_project/">
+                  <div class="input-group">
+                    <span class="input-group-addon">分支名</span>
+                    <input  placeholder="" class="form-control" required="required" name="issue_project_branch" data-original-title="" title="">
+                  </div>
+                  <br />
+
+                  <div class="input-group">
+                    <span class="input-group-addon" >工程</span>
+                    <select class="form-control" name="server_project">
+                         {% for project in  project_l %}
+                        <option>{{ project.project_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon" >平台</span>
+                    <select class="form-control" name="server_plat">
+                        {% for plat in  plat_l %}
+                        <option>{{ plat.plat_name }}</option>
+                        {% endfor %}
+
+                    </select>
+                  </div>
+                  <br />
+                     <input type="submit" class="btn-animate btn-style btn-d btn-primary" value="提交">
+                  <hr>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+

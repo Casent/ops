@@ -1,0 +1,39 @@
+
+{%  include "base_templates.html" %}
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		<table class="table table-striped">
+  <caption style="text-align:center">工程列表</caption>
+
+<thead>
+      <tr>
+         <th>工程名</th>
+          <th>GIT</th>
+         <th>备注</th>
+          <th>构建历史</th>
+          <th>操作</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for server in project_l %}
+        <tr>
+        <td>{{ server.project_name }}</td>
+        <td>{{ server.project_git }}</td>
+        <td>{{ server.project_remark }}</td>
+        <td><span class="label label-primary hover deleteidc"><a href="/project_build/?project_name={{ server.project_name }}" style="color:white"  role="button">详细</a></span></td>
+        <td><span class="label label-primary hover deleteidc"><a href="/edit_project/?project_id={{ server.id }}" style="color:white"  role="button">编辑</a></span>  <span class="label label-primary hover deleteidc"><a href="/delete_project/?project_id={{ server.id }}"   onclick="return confirmd()" style="color:white"  role="button">删除</a></span></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+			 <form method="get" action="/add_project/">
+    <input type="submit" value="添加新项目">
+    </form>
+
+		</div>
+	</div>
+</div>

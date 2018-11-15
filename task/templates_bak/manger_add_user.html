@@ -1,0 +1,28 @@
+
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+<div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                  <form role="form" method="post" action="/manger_add_user/">
+                      <div class="input-group">
+                    <span class="input-group-addon">用户名</span>
+                    <input  placeholder="" class="form-control"  required="required" name="manger_name" data-original-title="" title="">
+                  </div>
+                  <br />
+                      <div class="input-group">
+                    <span class="input-group-addon">密码</span>
+                    <input  placeholder="" class="form-control"  required="required" name="manger_password" data-original-title="" title="">
+                  </div>
+                      <br />
+                      <input type="submit" value="提交">
+    </form>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>

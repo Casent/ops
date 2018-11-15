@@ -1,0 +1,215 @@
+{%  extends "base.html" %}
+{% block content_centall %}
+
+        <link href="/static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="/static/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+        <link href="/static/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+        <style>
+    .parent-pagination .pagination
+    {
+        margin: 0px;
+    }
+        </style>
+        <script type="text/javascript">
+  function del_server(){
+        var opendata=new Array();
+        var show=document.getElementsByName('ip_list');
+
+        for(var i=0;i<show.length;i++){
+            if(show[i].checked==true){
+            opendata[i]=show[i].value+'<br>';
+        }
+    }
+  for(var i=0;i<opendata.length;i++){
+                if(opendata[i] == "" || typeof(opendata[i]) == "undefined")
+                {
+                        opendata.splice(i,1);
+                        i = i-1;
+                }
+        }
+        document.getElementById("open_list").innerHTML=opendata;
+}
+        </script>
+
+
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>构建列表</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">未启用 1</a>
+                                    </li>
+                                    <li><a href="#">未启用 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                 <form role="form" method="post" action="/build_search/">
+                                    <div class="form-group col-sm-2 ">
+                                        <select class="form-control" name="editable" >
+                                            <option value="{{ build_date }}">{{ build_date }}</option>
+
+                                            {% for i  in up_date %}
+                                                <option value="{{i.update}}">{{i.update}}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-2 ">
+                                        <select class="form-control" name="project_env" >
+                                             <option value="{{ project_env }}">{{ project_env }}</option>
+                                            <option value="pre">pre</option>
+                                            <option value="prod">prod</option>
+                                        </select>
+                                    </div>
+                                     <button type="submit"
+                                                        class="btn btn-sm btn-primary ">-筛选-
+                                                </button>
+                                </form>
+
+                            </div>
+                            <div class="table-responsive" style="overflow-x: hidden">
+                                <form id="contents_form" name="contents_form" method="post" action="/build_server_all/">
+                                    <table class="table table-hover table-bordered dataTables-example" id="editable"
+                                           name="editable">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">ID</th>
+                                            <th class="text-center">系统</th>
+                                            <th class="text-center">job名</th>
+                                            <th class="text-center">发布分支</th>
+                                            <th class="text-center">状态</th>
+                                            <th class="text-center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for j in jobs_l %}
+                                        <tr class="gradeX text-center">
+                                             <td class="text-center" name="{{j.jobsname}}-jobsname" value="{{j.jobsname}}-jobsname"
+                                                data-editable='false'><input name="server_list" value="{{j.jobsname}}"
+                                                                               type="checkbox" class="i-checks">{{ forloop.counter }}</td>
+                                             <td name="{{j.jobsname}}-jobsname" data-editable='false'>{{j.jobsname}}</td>
+                                            <td name="{{j.jobsname}}-jobsname" data-editable='false'>{{j.fullname}}</td>
+                                            <td name="{{j.jobsname}}-fenzhi" data-editable='false'>develop</td>
+                                            {% if j.status == "1" %}
+                                            <td name="{{j.jobsname}}-status" data-editable='false'><span class="label label-success">已发布</span></td>
+                                            {% elif cj.status == "2" %}
+                                            <td name="{{j.jobsname}}-status" data-editable='false'><span class="label label-danger">未成功</span></td>
+                                            {% else %}
+                                            <td name="{{j.jobsname}}-status" data-editable='false'><span class="label label-default">未发布</span></td>
+                                            {%  endif %}
+                                            <td><span class="label label-primary hover deleteidc"><a href="#" style="color:white"  role="button">编辑</a></span>  <span class="btn btn-danger btn-xs"><a href="/delete_build/?server_id={{ j.id }}&date={{build_date}}&env={{project_env}}&server={{j.jobsname}}"   onclick="return confirmd()" style="color:white"  role="button">删除</a></span></td>
+
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                <div class="row parent-pagination" style="padding: 0px 18px;">
+                                    <div class="pull-left">
+                                        <input id="checkall" type="checkbox" class="i-checks" name="checkall"
+                                               value="checkall" data-editable='false'
+                                               onclick="check_all('contents_form')">全选/全不选
+                                    </div>
+                                    <div class="pagination pull-right">
+                                        <li>
+                                            <span class="disabled prev">&lsaquo;&lsaquo; 上一页</span>
+                                        </li>
+                                        <li>
+                                            <span class="current page">1</span>
+                                        </li>
+
+                                        <li>
+                                            <a href="?page=2" class="next">下一页 &rsaquo;&rsaquo;</a>
+                                        </li>
+                                    </div>
+                                </div>
+                                <br>
+                                <input  type="text" style="display:none" name="server_date" value="{{build_date}}"></input>
+                                     <input  type="text" style="display:none" name="server_env" value="{{project_env}}"></input>
+                                  <button type="submit"
+                                                        class="btn btn-sm btn-primary ">发布
+                                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script src="/static/js/plugins/dataTables/dataTables.responsive.js"></script>
+        <script src="/static/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+        <script type="text/javascript">
+    $(document).ready(function(){
+        $('#editable').editableTableWidget({editor: $('<textarea>')});
+    });
+    function alter(form) {
+        selectData = GetHostTable();
+        //console.log(selectData[0])
+        if (selectData[1] != 0) {
+            $.ajax({
+                type: "POST",
+                url: "/build_search/",
+                data: {"editable": selectData[0], "len_table": selectData[1]},
+                success: function (data) {
+                    alert("修改成功");
+                    window.open("/hosts/host_list/?project=None", "_self");
+                error: window.open("/hosts/host_list/?project=None", "_self");
+                }
+            });
+        }
+    }
+    $("#search_input").keydown(function(e){
+        var t = $("#search_input");
+        if(e.keyCode==13){
+            if (t.val() == "") {
+                alert('输入不能为空');
+                t.focus();
+                return false;
+            }
+            }
+    });
+    $(document).ready(function() {
+            $('.dataTables-example').dataTable({
+                responsive: true,
+                "dom": 'T<"clear">lfrtip',
+                //"iDisplayLength":25,
+                "bPaginate": false,
+                "info": false,
+                "searching": false,
+                "tableTools": {
+                    "aButtons":'',
+                //    "sSwfPath": "static/js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+                }
+            });
+        });
+    function change_info(){
+        var args = $("#pro_form").serialize();
+        window.location = "/hosts/host_list/?" + args
+    }
+        </script>
+        <div class="footer">
+            <div class="pull-right">
+            </div>
+            <div>
+                <strong>Copyright</strong>©2015-2020 @nonobank.com Casent. All Rights Reserved
+            </div>
+        </div>
+{% endblock %}

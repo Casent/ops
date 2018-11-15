@@ -1,0 +1,106 @@
+
+{%  include "base_templates.html" %}
+<title>jQuery UI 日期选择器（Datepicker） - 显示按钮栏</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker({
+      showButtonPanel: true
+    });
+  });
+  </script>
+ <script type="text/javascript">
+        $(function(){
+            //用jQuery获取table中td值
+            $("#mytable td").click(function(){
+                alert("table td值："+$(this).text() $(this).attr("name"));
+            });
+
+            //jQuery获取table中点击位置所在行的id
+            $("#mytable td").click(function() {
+                //td的id
+                alert($(this).attr("name"));
+                //tr的id
+                alert($(this).parent().attr("id"));
+            });
+        });
+        </script>
+<table><tr>
+    <form role="form" method="post" action="/build_search/">
+<td>
+                    <select class="form-control" name="project_env">
+                        {% if project_env == "prod" %}
+                        <option>{{ project_env }}</option>
+
+                        <option>pre</option>
+                        {% else %}
+                        <option>{{ project_env }}</option>
+
+                        <option>prod</option>
+                        {% endif %}
+
+                    </select></td>
+<td>
+                    <p>日期：<input type="text" id="datepicker" name="date"  value="{{ build_date }}"></p></td>
+<td> <input type="submit" class="btn-animate btn-style btn-d btn-primary" value="筛选"></td>
+    </form>
+</tr></table>
+
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<br class="span12">
+		<table id="mytable" class="table table-striped">
+  <caption style="text-align:center">服务器列表</caption>
+
+<thead>
+      <tr>
+         <th>系统</th>
+         <th>job名</th>
+          <th>发布分支</th>
+          <th>状态</th>
+          <th>操作</th>
+
+
+      </tr>
+   </thead>
+    <tbody>
+        {% for j in jobs_l %}
+        <tr id=“tr_1“>
+        <td name="{{j.jobsname}}-jobsname">{{j.jobsname}}</td>
+            <td name="{{j.jobsname}}-fullname">{{j.fullname}}</td>
+
+            <td name="{{j.jobsname}}-fenzhi"><select class="form-control" name="server_project">
+
+                        <option>develop</option>
+                    </select>
+            </td>
+            {% if j.status == "1" %}
+            <td name="{{j.jobsname}}-status"><span class="label label-success">已发布</span></td>
+            {% elif cj.status == "2" %}
+            <td name="{{j.jobsname}}-status"><span class="label label-danger">未成功</span></td>
+            {% else %}
+            <td name="{{j.jobsname}}-status"><span class="label label-default">未发布</span></td>
+            {%  endif %}
+        <td><span class="label label-primary hover deleteidc"><a href="#" style="color:white"  role="button">编辑</a></span>  <span class="btn btn-danger btn-xs"><a href="/delete_build/?server_id={{ j.id }}&date={{build_date}}&env={{project_env}}"   onclick="return confirmd()" style="color:white"  role="button">删除</a></span></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+                <span class="label label-primary hover deleteidc">
+                 <a href="/build_server_all/?date={{build_date}}&env={{project_env}}" style="color:white"  role="button">一键发布</a>
+                </span>
+        </br>
+    </br>
+        <!--<span class="label label-primary hover deleteidc">-->
+                 <!--<a href="/sync_server/" style="color:white"  role="button">同步堡垒机</a>-->
+                <!--</span>-->
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+<body >
+
+{%  include "base_templates.html" %}
+<form method="post" action="/server_commint/">
+ <div class="input-group">
+    <span class="input-group-addon">命令输入：</span>
+    <input  placeholder="" class="form-control" required="required" placeholder="systemctl stop crond" name="commint" data-original-title="" title=""></br></br>
+ </div>
+     <div class="input-group">
+                    <span class="input-group-addon">执行用户</span>
+                    <select class="form-control"  onchange="selectgroup()" name="exec_user" >
+                         {% for user in user_list %}
+                        <option>{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+
+ </div>
+<div>
+
+		<table class="table table-striped">
+  <caption style="text-align:center">下发到服务器</caption>
+<thead>
+      <tr>
+          <th>服务器名</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for server in server_l %}
+        <tr><td><input type="checkbox" value="{{ server.server_name }}" name="check_server_list" />{{ server.server_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+<div>
+
+</div>
+<input type="submit" value="提交"/>
+</form>
+
+
+</body>

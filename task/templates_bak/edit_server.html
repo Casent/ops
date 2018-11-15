@@ -1,0 +1,66 @@
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <h3 class="first-child">编辑服务器</h3>
+                <hr>
+                <form role="form" method="post" action="/edit_server/">
+                    <div class="input-group">
+                    <span class="input-group-addon">服务器ID</span>
+                    <input  placeholder="" class="form-control" required="required"  readonly="true" value="{{server_l.id}}" name="server_id" data-original-title="" title="">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">服务器名</span>
+                    <input  placeholder="" class="form-control" required="required" value="{{server_l.server_name}}" name="server_name" data-original-title="" title="">
+                  </div>
+                  <br />
+
+                  <div class="input-group">
+                    <span class="input-group-addon">IP</span>
+                    <input  placeholder="" class="form-control" name="server_ip" value="{{server_l.server_ip}}"  required="required" data-original-title="" title="">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon" >工程</span>
+                    <select class="form-control" name="server_project">
+                        <option>{{server_l.server_project}}</option>
+                        <option>acc</option>
+                        <option>mkt</option>
+                        <option>prod</option>
+                        <option>invt</option>
+                    </select>
+                  </div>
+                  <br />
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon" >平台</span>
+                    <select class="form-control" name="server_plat">
+                        <option>{{server_l.server_plat}}</option>
+                        <option>DEV</option>
+                        <option>STB</option>
+                        <option>PRE</option>
+                        <option>PROD</option>
+                    </select>
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">备注</span>
+                    <input  placeholder="" class="form-control"  value="{{server_l.server_remark}}"  name="server_remark" data-original-title=""  title="">
+                  </div>
+                  <br />
+                     <input type="submit" class="btn-animate btn-style btn-d btn-primary" value="提交">
+                  <hr>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+

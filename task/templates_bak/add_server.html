@@ -1,0 +1,101 @@
+
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+<script language="javascript">
+function checkIP()
+{
+  obj = document.getElementById("ip").value;
+//ip地址
+var exp=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+var reg = obj.match(exp);
+if(reg==null)
+{
+alert("IP地址不合法！");
+return false;
+}
+$(document).ready(function(){
+
+        var hostname = $("#hostname").val();
+        var status= "";
+        var ip = $("#ip").val();
+        $.get("/check_ip/",{'hostname':hostname,'ip':ip}, function(ret){
+            status = ret.result;
+            if(ret.result=="false")
+            {
+            $("#hostname").val("");
+            $("#ip").val("");
+            alert("IP和主机名不匹配");
+            }
+
+        })
+    });
+
+if(status=="false")
+{
+return false;
+}
+
+}
+
+</script>
+
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <h3 class="first-child">添加服务器</h3>
+                <hr>
+                <form role="form" method="post" action="/add_server/">
+                  <div class="input-group">
+                    <span class="input-group-addon">服务器名</span>
+                    <input  placeholder="" class="form-control" required="required" name="server_name" id="hostname"  data-original-title="" title="">
+                  </div>
+                  <br />
+
+                  <div class="input-group">
+                    <span class="input-group-addon">IP</span>
+                    <input  placeholder="" class="form-control" name="server_ip"  required="required" data-original-title="" title="" id="ip" onchange="checkIP();">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon" >工程</span>
+                    <select class="form-control" name="server_project">
+                         {% for project in  project_l %}
+                        <option>{{ project.project_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon" >平台</span>
+                    <select class="form-control" name="server_plat">
+                        {% for plat in  plat_l %}
+                        <option>{{ plat.plat_name }}</option>
+                        {% endfor %}
+
+                    </select>
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">备注</span>
+                    <input  placeholder="" class="form-control"   name="server_remark" data-original-title=""  title="">
+                  </div>
+                  <br />
+                     <input type="submit" class="btn-animate btn-style btn-d btn-primary"  id="check_server" onclick="return checkIP();"  value="提交">
+                  <hr>
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+
+
+

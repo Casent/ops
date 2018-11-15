@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>select onChange事件</title>
+</head>
+<body>
+            <select id="EffectiveDateSel" onChange="DispayPrice(this);">
+
+                <option>切换 <b class="caret"></b></option>
+                <option value="121.473701,31.230416,200000">上海市</option>
+                <option value="116.407526,39.90403,100000">北京市</option>
+                <option value="103.826308,36.059421,620100000000">兰州市</option>
+                <option value="113.264434,23.129162,510000">广州市</option>
+
+            </select>
+
+			<span id="cityse"></span>
+
+<script>
+function DispayPrice(obj)
+    {
+        var nSel = document.getElementById(obj.id);
+        var index = nSel.selectedIndex; // 选中索引
+        var text = nSel.options[index].text; // 选中文本
+		var value= nSel.options[index].value;
+		alert(value);
+		alert(text);
+
+
+    }
+</script>
+</body>
+</html>
+

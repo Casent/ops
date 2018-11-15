@@ -1,0 +1,163 @@
+{%  extends "base.html" %}
+{% block content_centall %}
+
+
+<script language="javascript">
+function update_name(obj)
+{
+        var nSel = document.getElementById(obj.id);
+        var index = nSel.selectedIndex; // 选中索引
+        var text = nSel.options[index].text; // 选中文本
+        var value= nSel.options[index].value;
+        alert(text);
+        $(document).ready(function(){
+
+            $.post("/build_update_check/",{'update':"{{update}}", 'server_message':"",'value':text}, function(ret){
+                status = ret.result;
+
+            })
+
+         });
+
+}
+</script>
+<script language="javascript">
+function update_remake(obj)
+{
+    <!--alert(obj.id)-->
+    var provSelect1 = obj.id;
+    alert(provSelect1);
+    $(document).ready(function(){
+            var val = $("#provSelect1").val();
+            $.post("/build_update_check/",{'update':"{{update}}", 'server_message':provSelect1,'value':var}, function(ret){
+                status = ret.result;
+
+            })
+
+            });
+
+}
+</script>
+
+<script language="javascript">
+
+function update_server(obj)
+{
+
+        var nSel = document.getElementById(obj.id);
+        var index = nSel.selectedIndex; // 选中索引
+        var text = nSel.options[index].text; // 选中文本
+		var value= nSel.options[index].value;
+
+		$(document).ready(function(){
+		$.post("/build_update_check/",{'update':"{{update}}", 'server_message':value,'value':text}, function(ret){
+            status = ret.result;
+
+            })
+
+            });
+
+
+
+}
+</script>
+
+
+<!--<form role="form" method="post" action="/build_check/">-->
+
+
+    <div class="container-fluid">
+	<div class="row-fluid">
+		<br class="span12">
+<table class="table table-striped" id="mytable">
+  <caption style="text-align:center">{{update}}上线检查</caption>
+<thead>
+      <tr >
+         <th>系统名</th>
+         <th>有无配置修改</th>
+          <th>配置是否修改</th>
+          <th>发布</th>
+          <th>打tag</th>
+          <th>合并代码</th>
+          <th>double check</th>
+          <th>备注</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for j in build_list %}
+        <tr id=“tr_1“>
+            <td id="{{j.servername}}">{{j.servername}}</td>
+            <td><select id="{{j.servername}}*configexit" name="servername" class="form-control" style="appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                        <option style="text-align:center;" value="{{j.servername}}*configexit">{{j.configexit}}</option>
+                        <option style="text-align:center;" value="{{j.servername}}*configexit">√</option>
+                        <option style="text-align:center;" value="{{j.servername}}*configexit">×</option>
+                 </select>
+            </td>
+            <td><select id="{{j.servername}}*configfinish" class="form-control"  style="appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                        <option style="text-align:center;" value="{{j.servername}}*configfinish">{{j.configfinish}}</option>
+                        <option style="text-align:center;" value="{{j.servername}}*configfinish">√</option>
+                        <option style="text-align:center;" value="{{j.servername}}*configfinish">×</option>
+                 </select>
+            </td>
+            <td><select id="{{j.servername}}*issuefinish" class="form-control"  style="appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;"  onchange="update_server(this)">
+                        <option style="text-align:center;" value="{{j.servername}}*issuefinish">{{j.issuefinish}}</option>
+                        <option style="text-align:center;" value="{{j.servername}}*issuefinish">√</option>
+                        <option style="text-align:center;" value="{{j.servername}}*issuefinish">×</option>
+                 </select>
+            </td>
+            <td><select id="{{j.servername}}*tagfinish" class="form-control" style="appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                        <option style="text-align:center;" value="{{j.servername}}*tagfinish">{{j.tagfinish}}</option>
+                        <option style="text-align:center;" value="{{j.servername}}*tagfinish">√</option>
+                        <option style="text-align:center;" value="{{j.servername}}*tagfinish">×</option>
+                 </select>
+            </td>
+            <td><select id="{{j.servername}}-mergefinish" class="form-control" style="appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                        <option style="text-align:center;" value="{{j.servername}}*mergefinish">{{j.mergefinish}}</option>
+                        <option style="text-align:center;" value="{{j.servername}}*mergefinish">√</option>
+                        <option style="text-align:center;" value="{{j.servername}}*mergefinish">×</option>
+                 </select>
+            </td>
+            <td><select id="{{j.servername}}-doublecheckfinish" class="form-control" style="appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                        <option style="text-align:center;" value="{{j.servername}}*doublecheckfinish">{{j.doublecheckfinish}}</option>
+                        <option style="text-align:center;" value="{{j.servername}}*doublecheckfinish">√</option>
+                        <option style="text-align:center;" value="{{j.servername}}*doublecheckfinish">×</option>
+                 </select>
+            </td>
+            <td><input type="text"  placeholder="" id="{{j.servername}}*remake" name="user_name" style="outline: none; border: none;" onchange="update_remake(this);"></td>
+         </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+            <p>上线人：
+    <select id="{{update}}*up_user" class="form-control" name="" onchange="update_name(this);">
+                        {% for l in up_list %}
+                        <option value="{{update}}*up_user">{{l.upuser}}</option>
+                        {% endfor %}
+                        <option value="{{update}}*up_user">王青</option>
+                        <option value="{{update}}*up_user">程胜军</option>
+     </select>
+</p>
+
+<p>检查人：
+    <select id="{{update}}*check_user" class="form-control" name="" onchange="update_name(this);">
+                        {% for m in up_list %}
+                        <option value="{{update}}*check_user">{{m.checkuser}}</option>
+                        {% endfor %}
+                        <option value="{{update}}*check_user">王青</option>
+                        <option value="{{update}}*check_user">程胜军</option>
+     </select>
+</p>
+
+                <!--<input type="submit" value="确认提交">-->
+        </br>
+    </br>
+        <!--<span class="label label-primary hover deleteidc">-->
+                 <!--<a href="/sync_server/" style="color:white"  role="button">同步堡垒机</a>-->
+                <!--</span>-->
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+<!--</form>-->

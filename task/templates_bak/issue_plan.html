@@ -1,0 +1,61 @@
+
+{%  include "base_templates.html" %}
+<form method="post" action="/issue_plan/">
+    {{ error }}
+    <div class="col-xs-6">
+<table class="table table-striped">
+  <caption style="text-align:center">下发计划任务</caption>
+
+<thead>
+      <tr>
+          <th>计划任务</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for plan in plan_l %}
+        {%  if plan.plan_group == "up" %}
+        <tr>
+            <td><input type="checkbox" value="{{plan.plan_name }}" name="check_plan_list"/>{{ plan.id }}-{{ plan.plan_name }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+        </table>
+
+</div>
+
+<div class="col-xs-6">
+  <table class="table table-striped">
+  <caption style="text-align:center">下发到服务器</caption>
+<thead>
+      <tr>
+          <th>服务器名</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for server in server_l %}
+        <tr><td><input type="checkbox" value="{{ server.server_name }}" name="check_server_list"/>{{ server.server_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+ <div class="input-group">
+                    <span class="input-group-addon">计划执行者</span>
+                    <select class="form-control"  onchange="selectgroup()" name="exec_user" >
+
+                        {% for user in user_list %}
+                        <option>{{ user.username }}</option>
+                        {% endfor %}
+
+                    </select>
+
+ </div>
+    <br/>
+<input type="submit" value="提交"/>
+</div>
+
+
+</form>
+
+

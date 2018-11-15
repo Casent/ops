@@ -1,0 +1,37 @@
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <h3 class="first-child">编辑平台</h3>
+                <hr>
+                <form role="form" method="post" action="/edit_plat/">
+                    <div class="input-group">
+                    <span class="input-group-addon">平台ID</span>
+                    <input  placeholder="" class="form-control" required="required"  readonly="true" value="{{plat_l.id}}" name="plat_id" data-original-title="" title="">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">平台名</span>
+                    <input  placeholder="" class="form-control" required="required" value="{{plat_l.plat_name}}" name="plat_name" data-original-title="" title="">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">备注</span>
+                    <input  placeholder="" class="form-control" name="plat_remark" value="{{plat_l.plat_remark}}"   data-original-title="" title="">
+                  </div>
+                  <br />
+                     <input type="submit" class="btn-animate btn-style btn-d btn-primary" value="提交">
+                  <hr>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+

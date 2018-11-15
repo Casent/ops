@@ -1,0 +1,294 @@
+{%  extends "base.html" %}
+{% block content_centall %}
+
+<script language="javascript">
+function update_name(obj)
+{
+        var nSel = document.getElementById(obj.id);
+        var index = nSel.selectedIndex; // 选中索引
+        var text = nSel.options[index].text; // 选中文本
+        var value= nSel.options[index].value;
+        $(document).ready(function(){
+
+            $.post("/build_update_check/",{'update':"{{update}}", 'server_message':value,'value':text}, function(ret){
+                status = ret.result;
+
+            })
+
+         });
+
+}
+</script>
+<script language="javascript">
+function update_remake(obj)
+{
+
+
+
+    text = document.getElementById(obj.id).value;
+
+
+    $(document).ready(function(){
+
+            $.post("/build_update_check/",{'update':"{{update}}", 'server_message':obj.id,'value':text}, function(ret){
+                status = ret.result;
+
+            })
+
+         });
+
+}
+</script>
+
+<script language="javascript">
+
+function update_server(obj)
+{
+
+        var nSel = document.getElementById(obj.id);
+        var index = nSel.selectedIndex; // 选中索引
+        var text = nSel.options[index].text; // 选中文本
+		var value= nSel.options[index].value;
+
+		$(document).ready(function(){
+		$.post("/build_update_check/",{'update':"{{update}}", 'server_message':value,'value':text}, function(ret){
+            status = ret.result;
+
+            })
+
+            });
+
+
+
+}
+</script>
+
+
+
+        <link href="/static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="/static/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+        <link href="/static/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+        <style>
+    .parent-pagination .pagination
+    {
+        margin: 0px;
+    }
+        </style>
+        <script type="text/javascript">
+  function del_server(){
+        var opendata=new Array();
+        var show=document.getElementsByName('ip_list');
+
+        for(var i=0;i<show.length;i++){
+            if(show[i].checked==true){
+            opendata[i]=show[i].value+'<br>';
+        }
+    }
+  for(var i=0;i<opendata.length;i++){
+                if(opendata[i] == "" || typeof(opendata[i]) == "undefined")
+                {
+                        opendata.splice(i,1);
+                        i = i-1;
+                }
+        }
+        document.getElementById("open_list").innerHTML=opendata;
+}
+        </script>
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{update}}上线检查</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">未启用 1</a>
+                                    </li>
+                                    <li><a href="#">未启用 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                 <form role="form" method="post" action="/build_search/">
+                                    <div class="form-group col-sm-2 ">
+                                        <p>上线人：
+                                            <select id="{{update}}*up_user" class="form-control" name="" onchange="update_name(this);">
+                                                                {% for l in upoline %}
+                                                                <option value="{{update}}*up_user">{{l.upuser}}</option>
+                                                                {% endfor %}
+                                                                <option value="{{update}}*up_user">王青</option>
+                                                                <option value="{{update}}*up_user">程胜军</option>
+                                             </select>
+                                            </p>
+                                    </div>
+                                    <div class="form-group col-sm-2 ">
+                                       <p>检查人： <select id="{{update}}*check_user" class="form-control" name="" onchange="update_name(this);">
+                                           {% for m in upoline %}
+                                           <option value="{{update}}*check_user">{{m.checkuser}}</option>
+                                           {% endfor %}
+                                           <option value="{{update}}*check_user">王青</option>
+                                           <option value="{{update}}*check_user">程胜军</option>
+                                       </select>    </p>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <div class="table-responsive" style="overflow-x: hidden">
+                                <form id="contents_form" name="contents_form">
+                                    <table class="table table-hover table-bordered dataTables-example" id="editable"
+                                           name="editable">
+                                        <thead>
+                                        <tr>
+                                             <th class="text-center">系统名</th>
+                                             <th class="text-center">有无配置修改</th>
+                                             <th class="text-center">配置是否修改</th>
+                                             <th class="text-center">发布</th>
+                                             <th class="text-center">打tag</th>
+                                             <th class="text-center">合并代码</th>
+                                             <th class="text-center">double check</th>
+                                             <th class="text-center">备注</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for j in build_list %}
+                                         <tr class="gradeX text-center">
+                                         <td id="{{j.servername}}">{{j.servername}}</td>
+                                         <td><select id="{{j.servername}}*configexit" name="servername"  style="background-color:white; multiple:true;appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                                                     <option style="text-align:center;" value="{{j.servername}}*configexit">{{j.configexit}}</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*configexit">√</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*configexit">×</option>
+                                              </select>
+                                         </td>
+                                         <td><select id="{{j.servername}}*configfinish"   style="background-color:white; multiple:true; appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                                                     <option style="text-align:center;" value="{{j.servername}}*configfinish">{{j.configfinish}}</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*configfinish">√</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*configfinish">×</option>
+                                              </select>
+                                         </td>
+                                         <td><select id="{{j.servername}}*issuefinish"   style="background-color:white; multiple:true; appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;"  onchange="update_server(this)">
+                                                     <option style="text-align:center;" value="{{j.servername}}*issuefinish">{{j.issuefinish}}</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*issuefinish">√</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*issuefinish">×</option>
+                                              </select>
+                                         </td>
+                                         <td><select id="{{j.servername}}*tagfinish" style="background-color:white; multiple:true; appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                                                     <option style="text-align:center;" value="{{j.servername}}*tagfinish">{{j.tagfinish}}</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*tagfinish">√</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*tagfinish">×</option>
+                                              </select>
+                                         </td>
+                                         <td><select id="{{j.servername}}-mergefinish"  style="background-color:white; multiple:true; appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                                                     <option style="text-align:center;" value="{{j.servername}}*mergefinish">{{j.mergefinish}}</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*mergefinish">√</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*mergefinish">×</option>
+                                              </select>
+                                         </td>
+                                         <td><select id="{{j.servername}}-doublecheckfinish"  placeholder="" style="background-color:white; multiple:true; appearance:none;-moz-appearance:none;-webkit-appearance:none; outline: none; border: none; ltext-align:center;text-align-last: center;" onchange="update_server(this)">
+                                                     <option style="text-align:center;" value="{{j.servername}}*doublecheckfinish">{{j.doublecheckfinish}}</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*doublecheckfinish">√</option>
+                                                     <option style="text-align:center;" value="{{j.servername}}*doublecheckfinish">×</option>
+                                              </select>
+                                         </td>
+                                             <td><input type="text"  placeholder="" id="{{j.servername}}*remake" name="user_name" value="{{j.remark}}" style="outline: none; border: none;" onchange="update_remake(this);"></td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <div class="row parent-pagination" style="padding: 0px 18px;">
+                                    <div class="pagination pull-right">
+                                        <li>
+                                            <span class="disabled prev">&lsaquo;&lsaquo; 上一页</span>
+                                        </li>
+                                        <li>
+                                            <span class="current page">1</span>
+                                        </li>
+
+
+                                        <li>
+                                            <a href="?page=2" class="next">下一页 &rsaquo;&rsaquo;</a>
+                                        </li>
+                                    </div>
+                                </div>
+                                <br>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script src="/static/js/plugins/dataTables/dataTables.responsive.js"></script>
+        <script src="/static/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+        <script type="text/javascript">
+    $(document).ready(function(){
+        $('#editable').editableTableWidget({editor: $('<textarea>')});
+    });
+    function alter(form) {
+        selectData = GetHostTable();
+        //console.log(selectData[0])
+        if (selectData[1] != 0) {
+            $.ajax({
+                type: "POST",
+                url: "/build_search/",
+                data: {"editable": selectData[0], "len_table": selectData[1]},
+                success: function (data) {
+                    alert("修改成功");
+                    window.open("/hosts/host_list/?project=None", "_self");
+                error: window.open("/hosts/host_list/?project=None", "_self");
+                }
+            });
+        }
+    }
+    $("#search_input").keydown(function(e){
+        var t = $("#search_input");
+        if(e.keyCode==13){
+            if (t.val() == "") {
+                alert('输入不能为空');
+                t.focus();
+                return false;
+            }
+            }
+    });
+    $(document).ready(function() {
+            $('.dataTables-example').dataTable({
+                responsive: true,
+                "dom": 'T<"clear">lfrtip',
+                //"iDisplayLength":25,
+                "bPaginate": false,
+                "info": false,
+                "searching": false,
+                "tableTools": {
+                    "aButtons":'',
+                //    "sSwfPath": "static/js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+                }
+            });
+        });
+    function change_info(){
+        var args = $("#pro_form").serialize();
+        window.location = "/hosts/host_list/?" + args
+    }
+        </script>
+        <div class="footer">
+            <div class="pull-right">
+            </div>
+            <div>
+                <strong>Copyright</strong>©2015-2020 @nonobank.com Casent. All Rights Reserved
+            </div>
+        </div>
+{% endblock %}

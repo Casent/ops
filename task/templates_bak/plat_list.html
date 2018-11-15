@@ -1,0 +1,35 @@
+
+{%  include "base_templates.html" %}
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		<table class="table table-striped">
+  <caption style="text-align:center">平台列表</caption>
+
+<thead>
+      <tr>
+         <th>平台名</th>
+         <th>备注</th>
+          <th>操作</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for server in plat_l %}
+        <tr>
+        <td>{{ server.plat_name }}</td>
+        <td>{{ server.plat_remark }}</td>
+        <td><span class="label label-primary hover deleteidc"><a href="/edit_plat/?plat_id={{ server.id }}" style="color:white"  role="button">编辑</a></span>  <span class="label label-primary hover deleteidc"><a href="/delete_plat/?plat_id={{ server.id }}"   onclick="return confirmd()" style="color:white"  role="button">删除</a></span></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+			 <form method="get" action="/add_plat/">
+    <input type="submit" value="添加新平台">
+    </form>
+
+		</div>
+	</div>
+</div>

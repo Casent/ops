@@ -1,0 +1,42 @@
+{%  include "base_templates.html" %}
+
+   {% csrf_token %}
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <h3 class="first-child">编辑工程</h3>
+                <hr>
+                <form role="form" method="post" action="/edit_project/">
+                    <div class="input-group">
+                    <span class="input-group-addon">工程ID</span>
+                    <input  placeholder="" class="form-control" required="required"  readonly="true" value="{{project_l.id}}" name="project_id" data-original-title="" title="">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">工程名</span>
+                    <input  placeholder="" class="form-control" required="required" value="{{project_l.project_name}}" name="project_name" data-original-title="" title="">
+                  </div>
+                  <br />
+                    <div class="input-group">
+                    <span class="input-group-addon">GIT</span>
+                    <input  placeholder="" class="form-control" required="required" value="{{project_l.project_git}}" name="project_git" data-original-title="" title="">
+                  </div>
+                  <br />
+                  <div class="input-group">
+                    <span class="input-group-addon">备注</span>
+                    <input  placeholder="" class="form-control" name="project_remark" value="{{project_l.project_remark}}"   data-original-title="" title="">
+                  </div>
+                  <br />
+                     <input type="submit" class="btn-animate btn-style btn-d btn-primary" value="提交">
+                  <hr>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+

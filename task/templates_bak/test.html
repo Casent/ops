@@ -1,0 +1,95 @@
+{%  include "base_templates.html" %}
+
+<!--<script language="javascript">-->
+    <!--$(document).ready(function(){-->
+      <!--$("#check_ip").click(function(){-->
+        <!--var name = $("#name").val();-->
+        <!--var data = $("#data").val();-->
+        <!--$.ajax({-->
+            <!--type:"GET",-->
+            <!--url:"/check_ip/",-->
+            <!--data:{"name":name, "data":data},-->
+            <!--data-type:"json",-->
+            <!--success: function(ret){-->
+                    <!--$('#result').html(ret.result)-->
+                     <!--}-->
+        <!--})-->
+      <!--});-->
+    <!--});-->
+$("#hostname").val("")
+
+<!--</script>-->
+
+
+if(ret.result=="error")
+            {
+            $("#ip").val("");
+            alert("IP不能互信")；
+
+            }
+
+if(status=="error")
+{
+return false;
+}
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+      $("#check_server").click(function(){
+        var hostname = $("#hostname").val();
+        var ip = $("#ip").val();
+        $.get("/check_ip/",{'hostname':hostname,'ip':ip}, function(ret){
+            if(ret.result=="false")
+            {
+            $("#hostname").val("")
+            alert("IP和主机名不匹配");
+            return false;
+            }
+
+        })
+      });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+      $("#check_ip").click(function(){
+        var name = $("#name").val();
+        var data = $("#data").val();
+        $.get("/check_ip/",{'name':name,'data':data}, function(ret){
+            $('#result').html(ret.result)
+        })
+      });
+    });
+    return true;
+
+</script>
+
+<form role="form"  method="post"  action="/server_list/">
+name: <input type="text" id="name" name="nane"> <br>
+data: <input type="text" id="data" name="data"> <br>
+<p>result: <span id='result'></span></p>
+<button type="button" id='check_ip' onclick="return check_server();">ajax提交</button>
+</form>
+
+<!--<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<!--<script>-->
+    <!--$(document).ready(function(){-->
+      <!--$("#sum").click(function(){-->
+        <!--var a = $("#a").val();-->
+        <!--var b = $("#b").val();-->
+        <!--$.get("/check_ip/",{'a':a,'b':b}, function(ret){-->
+            <!--$('#result').html(ret.result)-->
+        <!--})-->
+      <!--});-->
+    <!--});-->
+<!--</script>-->
+
+<!--<form>-->
+<!--a: <input type="text" id="a" name="a"> <br>-->
+<!--b: <input type="text" id="b" name="b"> <br>-->
+<!--<p>result: <span id='result'></span></p>-->
+<!--<button type="button" id='sum'>ajax提交</button>-->
+<!--</form>-->

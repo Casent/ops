@@ -1,0 +1,41 @@
+{%  include "base_templates.html" %}
+   <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script>oTextarea.scrollTop=oTextarea.scrollHeight</script>
+   <script type="text/javascript" language="javascript">
+            var test = "continue";
+           function update(id) {
+               $.getJSON("/data/{{ appname_e }}/",function(data) {
+                $.each(data, function(){  
+                    $("#content").html('<textarea   id="my" rows="20" cols="150" >'  + this.subject + '.</textarea>');
+                    test = this.status
+                    var obj = document.getElementById("my");
+                    obj.scrollTop = obj.scrollHeight;
+                });  
+               });  
+           }  
+           function timeDown(limit, i) {  
+               limit--;  
+               if (i > 1) {
+                   i = 0;  
+               }  
+               if (limit < 0) {  
+                   limit = 1;
+                   update(i);  
+                   i++;  
+               }  
+               $('#time').text("日志输出");
+
+               setTimeout(function() {  
+                   timeDown(limit, i);  
+               }, 1000)  
+           }
+
+           $(document).ready(function() {  
+               timeDown(1, 0)
+        })
+   </script>  
+
+   <h1>{{ appname_e }}</h1>
+   <p id="time"></p>  
+   <div id="content"></div>   
+

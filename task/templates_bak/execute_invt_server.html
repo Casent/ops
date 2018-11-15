@@ -1,0 +1,131 @@
+
+{%  include "base_templates.html" %}
+
+<!--<script type="text/javascript">-->
+
+    <!--$(document).ready(function(){-->
+      <!--$("#plat").(function(){-->
+        <!--var project = $("#project").val();-->
+        <!--var plat = $("#plat").val();-->
+        <!--$.get("/check_ip/",{'project':project,'plat':plat}, function(ret){-->
+            <!--$('#result').html(ret.result)-->
+        <!--})-->
+      <!--});-->
+    <!--});-->
+
+
+<!--</script>-->
+
+    {{ error }}
+    <div class="col-xs-6">
+<table class="table table-striped">
+  <caption style="text-align:center"></caption>
+
+<thead>
+      <tr>
+          <th>平台选择</th>
+      </tr>
+   </thead>
+    <tbody>
+        {% for plan in plan_l %}
+        {%  if plan.plan_group == "up" %}
+        <tr>
+            <td><input type="checkbox" value="{{plan.plan_name }}" name="check_plan_list"/>{{ plan.id }}-{{ plan.plan_name }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+    <form role="form" method="post" action="/execute_invt_search_server/" >
+        <tr>
+<td>
+                    <select class="form-control"  name="server_project">
+                        {% if server_project != "" %}
+                        <option>{{ server_project }}</option>
+                        {% endif %}
+                         {% for project in  project_l %}
+                         {% if  server_project == project.project_name %}
+
+                         {% else  %}
+                        <option>{{ project.project_name }}</option>
+                        {% endif %}
+
+                        {% endfor %}
+                        <option>*</option>
+                    </select></td>
+        </tr>
+    <tr>
+<td>
+                    <select class="form-control"  name="server_plat">
+                        {% if server_plat != "" %}
+                        <option>{{ server_plat }}</option>
+                        {% endif %}
+                        {% for plat in  plat_l %}
+
+                         {% if  server_plat == plat.plat_name %}
+
+                         {% else  %}
+                        <option>{{ plat.plat_name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        <option>*</option>
+
+                    </select></td></tr>
+        <tr>
+        <td> <input type="submit" class="btn-animate btn-style btn-d btn-primary" value="查询"></td></form></tr>
+
+
+        <form method="post" action="/issue_execute_invt_server/" enctype="multipart/form-data">
+       </tbody>
+        </table>
+ <div class="input-group">
+                    <span class="input-group-addon">服务类型</span>
+                    <select class="form-control"  onchange="selectgroup()" name="exec_apply" >
+                        <option>app</option>
+                        <option>job</option>
+                        <option>api</option>
+                    </select>
+
+ </div>
+    <br/>
+<label class="ui_button ui_button_primary" for="lFile">上传logback文件:</label>
+    <input type="file" id="lFile"  name="logbackfile"  /><br/><br/>
+<label class="ui_button ui_button_primary" for="nFile">上传noconffile文件:</label>
+        <input type="file" id="nFile"  name="noconffile" /><br/><br/>
+<input type="submit" id="sum" onclick="return check_server();" value="执行"/>
+
+</div>
+
+<div class="col-xs-6">
+  <table class="table table-striped">
+  <caption style="text-align:center"></caption>
+<thead>
+      <tr>
+          <th>服务器选择</th>
+      </tr>
+   </thead>
+    <tbody>
+
+        {% for server in server_l %}
+        <tr>
+
+            <td><input type="checkbox" value="{{ server.server_ip }}" name="server_list"/>{{ server.server_name }} &nbsp; &nbsp; &nbsp; &nbsp;{{ server.server_ip }}</td>
+
+        </tr>
+        {% endfor %}
+    <tr>
+        <td>
+        <input type="text" name="server_project" value="{{ server_project }}" hidden="true" readonly="true" /> <input type="text" name="server_plat"  hidden="true" value="{{ server_plat }}" readonly="true" />
+        </td>
+        </tr>
+    </tbody>
+    </table>
+
+
+</div>
+
+
+</form>
+
+
+
+
